@@ -1,17 +1,15 @@
 package com.example;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity	//Tells Hibernate to make a table out of this class
 public class Employee {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	
 	private Integer employeeID;
 	
-	private String name;
+	private String firstName;
+	
+	private String lastName;
 	
 	private String phoneNumber;
 	
@@ -21,8 +19,12 @@ public class Employee {
 		return employeeID;
 	}
 	
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
 	}
 	
 	public String getPhoneNumber() {
@@ -37,8 +39,12 @@ public class Employee {
 		this.employeeID = employeeID;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	
 	public void setPhoneNumber(String phoneNumber) {

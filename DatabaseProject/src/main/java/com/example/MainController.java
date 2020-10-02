@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @Controller	//This means that the calss is a Controller
 @RequestMapping(path="/emp_db")	//The URL's will start with /emp_db
@@ -19,7 +22,8 @@ public class MainController {
 	@PostMapping(path="/add")	//Map ONLY POST Requests
 	public @ResponseBody String addNewEmployee (
 			@RequestParam Integer employeeID, 
-			@RequestParam String name,
+			@RequestParam String firstName,
+			@RequestParam String lastName,
 			@RequestParam String phoneNumber,
 			@RequestParam String supervisors) {
 		//@RequestBody means the returned String is the response, not a view name
@@ -27,16 +31,29 @@ public class MainController {
 		
 		Employee emp = new Employee();
 		emp.setEmployeeID(employeeID);
-		emp.setName(name);
+		emp.setFirstName(firstName);
+		emp.setFirstName(lastName);
 		emp.setPhoneNumber(phoneNumber);
 		emp.setSupervisors(supervisors);
 		employeeRepository.save(emp);
 		return "Added to database. Saved.";
 	}
 	
+	@DeleteMapping(path="/delete")	//Map ONLY Delete Requests
+	public @ResponseBody String deleteEmployee (Integer employeeID) {
+		employeeRepository.deleteById(employeeID);
+		return String.format("%d deleted from database.", employeeID);
+	}
+	
 	@GetMapping(path="/all")
 	public @ResponseBody Iterable<Employee> getAllUsers() {
 		return employeeRepository.findAll();
+	}
+	
+	@GetMapping(path="/employee?ID=")
+	public @ResponseBody Optional<Employee> getUser(Integer employeeID){
+		
+		return employeeRepository.findById(employeeID);
 	}
 	
 }
